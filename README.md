@@ -11,3 +11,6 @@
 - 월별 할 일: 3월부터 2월까지 학년도 순서
 - 업무 분류: 담임업무 / 부서업무 / 행정·복무 / 수업·자료 / 헷갈리는 것
 - 카드: 한 줄 요약, 체크리스트(학년도별), 절차, 주의할 점, 링크, 마지막 확인일
+
+## 글꼴
+Pretendard (SIL Open Font License 1.1), `fonts/PretendardVariable.woff2`
