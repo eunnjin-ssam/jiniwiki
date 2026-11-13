@@ -437,7 +437,8 @@ function viewFav(){
 /* 간단한 서식: ## 소제목, - 목록, **굵게**, 주소 자동 연결 */
 function prose(text){
   if (!text) return '';
-  const inline = s => esc(s).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>');
+  const cardLink = (m, t) => { const c=[...S.cards.values()].find(x=>x.title===t.trim()); return c ? `<a href="#card-${esc(c.id)}">${t}</a>` : `<span title="이 제목의 카드가 아직 없어요" style="border-bottom:1px dashed var(--faint)">${t}</span>`; };
+  const inline = s => esc(s).replace(/\[\[(.+?)\]\]/g, cardLink).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>');
   let out='', list=false;
   for (const raw of text.split('\n')){
     const l = raw.trimEnd();
@@ -505,7 +506,7 @@ function viewEdit(id, preset){
       <div class="mpick" id="mpick">${SCHOOL_MONTHS.map(m=>`<button type="button" data-m="${m}" class="${S.mpick.includes(m)?'on':''}" aria-pressed="${S.mpick.includes(m)}">${m}월</button>`).join('')}</div></div>
     <div class="field"><label for="f-summary">한 줄 요약</label><input type="text" id="f-summary" value="${esc(v.summary)}" placeholder="이 카드를 한 문장으로"></div>
     <div class="field"><label for="f-check">체크리스트<span class="hint">한 줄에 하나씩, 하는 순서대로</span></label><textarea id="f-check" rows="5">${esc((v.checklist||[]).join('\n'))}</textarea></div>
-    <div class="field"><label for="f-body">자세한 절차·방법<span class="hint">‘## ’ 소제목 · ‘- ’ 목록 · **굵게**</span></label><textarea id="f-body" rows="8">${esc(v.body)}</textarea></div>
+    <div class="field"><label for="f-body">자세한 절차·방법<span class="hint">‘## ’ 소제목 · ‘- ’ 목록 · **굵게** · [[카드 제목]] 다른 카드로 연결</span></label><textarea id="f-body" rows="8">${esc(v.body)}</textarea></div>
     <div class="field"><label for="f-caution">주의할 점<span class="hint">예전에 실수했던 것, 헷갈렸던 것</span></label><textarea id="f-caution" rows="3">${esc(v.caution)}</textarea></div>
     <div class="field"><label for="f-links">관련 링크<span class="hint">한 줄에 하나씩 ‘이름 | 주소’</span></label><textarea id="f-links" rows="3" placeholder="학교폭력 사안처리 가이드북 | https://...">${esc((v.links||[]).map(l=>l.label&&l.label!==l.url?`${l.label} | ${l.url}`:l.url).join('\n'))}</textarea></div>
     <div class="row2">
