@@ -13,7 +13,7 @@
   --c-homeroom:#2f7fc1; --c-g6:#b4417a; --c-dept:#1d8a6a; --c-admin:#7357c4; --c-class:#c0791d; --c-qa:#c9372c;
   --shadow:0 1px 2px rgba(17,24,39,.04),0 4px 14px rgba(17,24,39,.06);
   --f:"Pretendard",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;
-  --r:12px;
+  --r:12px; --logo-filter:none;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0f1216; --surface:#171b21; --sunken:#1d2229; --hover:#1f252d;
@@ -23,6 +23,7 @@
   --warn:#f07b70; --warn-soft:#351d1b; --ok:#5cc497;
   --c-homeroom:#6fafe6; --c-g6:#ec8bb8; --c-dept:#5cc4a2; --c-admin:#a891ec; --c-class:#e3a556; --c-qa:#f07b70;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 14px rgba(0,0,0,.25);
+  --logo-filter:brightness(1.75) saturate(.85);
   color-scheme:dark;
 }}
 :root[data-theme="dark"]{
@@ -33,6 +34,7 @@
   --warn:#f07b70; --warn-soft:#351d1b; --ok:#5cc497;
   --c-homeroom:#6fafe6; --c-g6:#ec8bb8; --c-dept:#5cc4a2; --c-admin:#a891ec; --c-class:#e3a556; --c-qa:#f07b70;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 14px rgba(0,0,0,.25);
+  --logo-filter:brightness(1.75) saturate(.85);
   color-scheme:dark;
 }
 *{box-sizing:border-box}
@@ -49,8 +51,7 @@ kbd{font-family:var(--f);font-size:11px;border:1px solid var(--line2);border-bot
 .top-in{max-width:1200px;margin:0 auto;display:flex;gap:16px;align-items:center;padding-block:10px;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--ink);flex-shrink:0;width:214px}
-.logo{width:28px;height:28px;border-radius:8px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:800;font-size:14px;letter-spacing:-.04em}
-.brand b{font-weight:750;font-size:17px;letter-spacing:-.03em}
+.logo-img{display:block;height:32px;width:auto;max-width:none;filter:var(--logo-filter)}
 .search{flex:1;min-width:0;position:relative;max-width:620px}
 .search input{width:100%;height:40px;padding:0 44px 0 40px;border:1px solid var(--line);border-radius:10px;background:var(--sunken);font-size:15px;transition:border-color .15s,background .15s}
 .search input:focus{background:var(--surface);border-color:var(--accent);outline:none;box-shadow:0 0 0 3px var(--accent-soft)}
@@ -228,7 +229,7 @@ main{min-width:0;display:flex;flex-direction:column;gap:32px}
 </style>
 
 <header class="top"><div class="top-in">
-  <a class="brand" href="#home"><span class="logo">JW</span><b>지니위키</b></a>
+  <a class="brand" href="#home" aria-label="지니위키 홈"><img class="logo-img" src="img/jiniwiki-logo.png" alt="jiniwiki" width="105" height="32"></a>
   <div class="search">
     <svg class="ic" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
     <input id="q" type="search" placeholder="업무 검색  예) 생기부, ㅎㅍ, #나이스" autocomplete="off" enterkeyhint="search" aria-label="지니위키 검색">
