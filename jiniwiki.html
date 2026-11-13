@@ -10,7 +10,7 @@
   --line:#e5e8eb; --line2:#d1d6db;
   --accent:#2f5fd0; --accent-ink:#ffffff; --accent-soft:#edf2fd; --accent-line:#c7d6f7;
   --warn:#c9372c; --warn-soft:#fdf0ef; --ok:#1d7f57;
-  --c-homeroom:#2f7fc1; --c-dept:#1d8a6a; --c-admin:#7357c4; --c-class:#c0791d; --c-qa:#c9372c;
+  --c-homeroom:#2f7fc1; --c-g6:#b4417a; --c-dept:#1d8a6a; --c-admin:#7357c4; --c-class:#c0791d; --c-qa:#c9372c;
   --shadow:0 1px 2px rgba(17,24,39,.04),0 4px 14px rgba(17,24,39,.06);
   --f:"Pretendard",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;
   --r:12px;
@@ -21,7 +21,7 @@
   --line:#272d35; --line2:#363e48;
   --accent:#7097f4; --accent-ink:#0d1320; --accent-soft:#1a2440; --accent-line:#2c3d66;
   --warn:#f07b70; --warn-soft:#351d1b; --ok:#5cc497;
-  --c-homeroom:#6fafe6; --c-dept:#5cc4a2; --c-admin:#a891ec; --c-class:#e3a556; --c-qa:#f07b70;
+  --c-homeroom:#6fafe6; --c-g6:#ec8bb8; --c-dept:#5cc4a2; --c-admin:#a891ec; --c-class:#e3a556; --c-qa:#f07b70;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 14px rgba(0,0,0,.25);
   color-scheme:dark;
 }}
@@ -31,7 +31,7 @@
   --line:#272d35; --line2:#363e48;
   --accent:#7097f4; --accent-ink:#0d1320; --accent-soft:#1a2440; --accent-line:#2c3d66;
   --warn:#f07b70; --warn-soft:#351d1b; --ok:#5cc497;
-  --c-homeroom:#6fafe6; --c-dept:#5cc4a2; --c-admin:#a891ec; --c-class:#e3a556; --c-qa:#f07b70;
+  --c-homeroom:#6fafe6; --c-g6:#ec8bb8; --c-dept:#5cc4a2; --c-admin:#a891ec; --c-class:#e3a556; --c-qa:#f07b70;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 14px rgba(0,0,0,.25);
   color-scheme:dark;
 }
@@ -82,7 +82,7 @@ nav.idx{position:sticky;top:calc(env(safe-area-inset-top,0px) + 80px);align-self
 .idx a .n{margin-left:auto;font-size:12.5px;color:var(--faint);font-variant-numeric:tabular-nums;font-weight:500}
 .idx svg{flex-shrink:0;opacity:.75}
 .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;background:var(--muted);display:inline-block}
-.dot.homeroom{background:var(--c-homeroom)}.dot.dept{background:var(--c-dept)}.dot.admin{background:var(--c-admin)}.dot.class{background:var(--c-class)}.dot.qa{background:var(--c-qa)}
+.dot.homeroom{background:var(--c-homeroom)}.dot.g6{background:var(--c-g6)}.dot.dept{background:var(--c-dept)}.dot.admin{background:var(--c-admin)}.dot.class{background:var(--c-class)}.dot.qa{background:var(--c-qa)}
 .idx-foot{font-size:12.5px;color:var(--muted);padding:12px 10px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:2px}
 .idx-foot b{color:var(--ink2);font-weight:650}
 
@@ -248,7 +248,8 @@ main{min-width:0;display:flex;flex-direction:column;gap:32px}
 (() => {
 const CATS = [
   {id:'homeroom', name:'담임업무', subs:['학년초·학기초','학급운영','학부모·상담','생활지도','평가·생활기록부','학기말·학년말']},
-  {id:'dept', name:'부서업무', subs:['학년부장(6학년)','교무(학적·학사·생기부)','연구(교육과정·연수)','학생평가','생활인성·학교폭력','생태환경']},
+  {id:'g6', name:'6학년 부장', subs:['중학교 입학','졸업','학년 운영','행사·체험학습']},
+  {id:'dept', name:'부서업무', subs:['학년부장','교무(학적·학사·생기부)','연구(교육과정·연수)','학생평가','생활인성·학교폭력','생태환경']},
   {id:'admin', name:'행정·복무', subs:['나이스','K-에듀파인·공문','복무(연가·출장)','연수·성과급·인사']},
   {id:'class', name:'수업·자료', subs:['교육과정·수업','평가 자료','학습 자료']},
   {id:'qa', name:'헷갈리는 것', subs:['규정·기준','절차','용어']},
