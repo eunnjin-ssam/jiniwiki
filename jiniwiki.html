@@ -168,6 +168,13 @@ main{min-width:0;display:flex;flex-direction:column;gap:32px}
 .prose h5{font-size:15px;margin:14px 0 6px;color:var(--ink);font-weight:700}
 .prose h5:first-child{margin-top:0}
 .prose strong{color:var(--ink);font-weight:650}
+.tbl{overflow-x:auto;margin:4px 0 12px;border:1px solid var(--line);border-radius:10px}
+.tbl table{border-collapse:collapse;width:100%;font-size:14px}
+.tbl th,.tbl td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl td:first-child{white-space:normal;min-width:10em}
+.tbl tr:last-child td{border-bottom:0}
+.tbl th{background:var(--sunken);font-weight:650;color:var(--ink2);font-size:13px}
+.tbl td:not(:first-child),.tbl th:not(:first-child){text-align:center;font-variant-numeric:tabular-nums}
 .caution{background:var(--warn-soft);border-radius:10px;padding:14px 18px}
 .caution h4{color:var(--warn)}
 .links{display:flex;flex-direction:column;gap:6px;margin:0;padding:0;list-style:none}
@@ -440,14 +447,25 @@ function prose(text){
   if (!text) return '';
   const cardLink = (m, t) => { const c=[...S.cards.values()].find(x=>x.title===t.trim()); return c ? `<a href="#card-${esc(c.id)}">${t}</a>` : `<span title="이 제목의 카드가 아직 없어요" style="border-bottom:1px dashed var(--faint)">${t}</span>`; };
   const inline = s => esc(s).replace(/\[\[(.+?)\]\]/g, cardLink).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>');
-  let out='', list=false;
+  let out='', list=false, rows=[];
+  const cells = l => l.trim().replace(/^\||\|$/g,'').split('|').map(x=>x.trim());
+  const flushTable = () => {
+    if (!rows.length) return;
+    const body = rows.filter(r=>!r.every(c=>/^:?-{2,}:?$/.test(c)));
+    const [head, ...rest] = body;
+    out += `<div class="tbl"><table><thead><tr>${head.map(c=>`<th>${inline(c)}</th>`).join('')}</tr></thead><tbody>${rest.map(r=>`<tr>${r.map(c=>`<td>${inline(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+    rows = [];
+  };
   for (const raw of text.split('\n')){
     const l = raw.trimEnd();
+    if (/^\s*\|/.test(l)){ if (list){ out+='</ul>'; list=false; } rows.push(cells(l)); continue; }
+    flushTable();
     if (/^\s*[-•·]\s+/.test(l)){ if(!list){out+='<ul>';list=true;} out+=`<li>${inline(l.replace(/^\s*[-•·]\s+/,''))}</li>`; continue; }
     if (list){ out+='</ul>'; list=false; }
     if (/^##\s+/.test(l)) out+=`<h5>${inline(l.replace(/^##\s+/,''))}</h5>`;
     else if (l.trim()) out+=`<p>${inline(l)}</p>`;
   }
+  flushTable();
   if (list) out+='</ul>';
   return out;
 }
@@ -507,7 +525,7 @@ function viewEdit(id, preset){
       <div class="mpick" id="mpick">${SCHOOL_MONTHS.map(m=>`<button type="button" data-m="${m}" class="${S.mpick.includes(m)?'on':''}" aria-pressed="${S.mpick.includes(m)}">${m}월</button>`).join('')}</div></div>
     <div class="field"><label for="f-summary">한 줄 요약</label><input type="text" id="f-summary" value="${esc(v.summary)}" placeholder="이 카드를 한 문장으로"></div>
     <div class="field"><label for="f-check">체크리스트<span class="hint">한 줄에 하나씩, 하는 순서대로</span></label><textarea id="f-check" rows="5">${esc((v.checklist||[]).join('\n'))}</textarea></div>
-    <div class="field"><label for="f-body">자세한 절차·방법<span class="hint">‘## ’ 소제목 · ‘- ’ 목록 · **굵게** · [[카드 제목]] 다른 카드로 연결</span></label><textarea id="f-body" rows="8">${esc(v.body)}</textarea></div>
+    <div class="field"><label for="f-body">자세한 절차·방법<span class="hint">‘## ’ 소제목 · ‘- ’ 목록 · **굵게** · [[카드 제목]] 다른 카드로 연결 · | 칸 | 칸 | 표</span></label><textarea id="f-body" rows="8">${esc(v.body)}</textarea></div>
     <div class="field"><label for="f-caution">주의할 점<span class="hint">예전에 실수했던 것, 헷갈렸던 것</span></label><textarea id="f-caution" rows="3">${esc(v.caution)}</textarea></div>
     <div class="field"><label for="f-links">관련 링크<span class="hint">한 줄에 하나씩 ‘이름 | 주소’</span></label><textarea id="f-links" rows="3" placeholder="학교폭력 사안처리 가이드북 | https://...">${esc((v.links||[]).map(l=>l.label&&l.label!==l.url?`${l.label} | ${l.url}`:l.url).join('\n'))}</textarea></div>
     <div class="row2">
